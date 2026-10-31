@@ -1,0 +1,135 @@
+/*
+ * BOL Studio design tokens.
+ * Layer 1 (raw) lives here as literal values per theme; layer 2 (semantic) are the
+ * --c-* variables; layer 3 (component) is Tailwind utilities mapped in app.css (@theme).
+ * Contrast pairs are verified by tests/contrast.test.ts (AA: text 4.5:1, UI parts 3:1).
+ */
+:root, .light {
+  --c-bg: #f6f7f9;
+  --c-surface: #ffffff;
+  --c-surface-2: #f1f3f6;
+  --c-surface-3: #e7eaef;
+  --c-border: #d9dee5;
+  --c-border-strong: #737d8b;
+  --c-text: #111418;
+  --c-text-muted: #545d69;
+  --c-text-faint: #5f6873;
+
+  --c-accent: #0f766e;        /* teal: New/Add, links, focus */
+  --c-accent-fg: #ffffff;
+  --c-accent-soft: #ccfbf1;
+  --c-accent-text: #0f766e;
+  --c-success: #15803d;       /* Save / Submit / Confirm */
+  --c-success-fg: #ffffff;
+  --c-danger: #b91c1c;        /* Delete */
+  --c-danger-fg: #ffffff;
+  --c-info: #1d4ed8;          /* Edit */
+  --c-info-fg: #ffffff;
+  --c-warning: #b45309;
+  --c-warning-fg: #ffffff;
+  --c-neutral: #475569;       /* calm utility: Print / Download / Search */
+  --c-neutral-fg: #ffffff;
+
+  --c-success-soft: #dcfce7;
+  --c-danger-soft: #fee2e2;
+  --c-info-soft: #dbeafe;
+  --c-ai: #6d28d9;            /* AI actions (violet) */
+  --c-ai-soft: #ede9fe;
+  --c-reupload: #a21caf;      /* re-upload to a platform already done (fuchsia; not a status colour) */
+  --c-reupload-soft: #fae8ff;
+  --c-warning-soft: #fef3c7;
+  --c-planned: #eab308;       /* saved in the planner, no platform status yet (yellow; not a platform status) */
+  --c-planned-text: #854d0e;
+  --c-planned-soft: #fef9c3;
+  --c-pes: #c2410c;           /* PES video (title contains the keyword): planner colour bar */
+
+  /* Brand colours: readable variants for light surfaces */
+  --brand-youtube: #d6001c;
+  --brand-tiktok: #111418;
+  --brand-facebook: #1877f2;
+  --brand-instagram: #c13584;
+  --brand-threads: #111418;
+  --brand-shopee: #c8401b;
+
+  --shadow-1: 0 1px 2px rgb(16 24 40 / .06), 0 1px 3px rgb(16 24 40 / .08);
+  --shadow-2: 0 4px 8px rgb(16 24 40 / .06), 0 12px 24px rgb(16 24 40 / .10);
+  --shadow-3: 0 12px 24px rgb(16 24 40 / .10), 0 32px 64px rgb(16 24 40 / .16);
+  --scrim: rgb(15 20 25 / .45);
+}
+
+.dark {
+  --c-bg: #0b0d10;
+  --c-surface: #13161b;
+  --c-surface-2: #1a1e25;
+  --c-surface-3: #222730;
+  --c-border: #2a303a;
+  --c-border-strong: #6b7480;
+  --c-text: #ecedef;
+  --c-text-muted: #a9a9bb;
+  --c-text-faint: #9ba0a9;  /* brighter for phones; ≥4.5:1 on surface-2 */
+
+  --c-accent: #14b8a6;
+  --c-accent-fg: #04201c;
+  --c-accent-soft: #0f2e2b;
+  --c-accent-text: #5eead4;
+  --c-success: #4ade80;
+  --c-success-fg: #05240f;
+  --c-danger: #f87171;
+  --c-danger-fg: #2a0606;
+  --c-info: #60a5fa;
+  --c-info-fg: #06172d;
+  --c-warning: #fbbf24;
+  --c-warning-fg: #1f1500;
+  --c-neutral: #94a3b8;
+  --c-neutral-fg: #0b0d10;
+
+  --c-success-soft: #0e2a18;
+  --c-danger-soft: #2e1414;
+  --c-info-soft: #0f2036;
+  --c-ai: #c4b5fd;
+  --c-ai-soft: #1e1533;
+  --c-reupload: #f0abfc;
+  --c-reupload-soft: #2a1030;
+  --c-warning-soft: #2c2210;
+  --c-planned: #facc15;
+  --c-planned-text: #fde047;
+  --c-planned-soft: #2a2508;
+  --c-pes: #f97316;
+
+  /* Brand colours: light variants so black brands (TikTok, Threads) stay visible */
+  --brand-youtube: #ff4d5e;
+  --brand-tiktok: #f1f3f5;
+  --brand-facebook: #5b9cf8;
+  --brand-instagram: #f0628a;
+  --brand-threads: #f1f3f5;
+  --brand-shopee: #ff7a4d;
+
+  --shadow-1: 0 1px 2px rgb(0 0 0 / .4);
+  --shadow-2: 0 2px 4px rgb(0 0 0 / .4), 0 12px 28px rgb(0 0 0 / .35);
+  --shadow-3: 0 12px 24px rgb(0 0 0 / .45), 0 32px 64px rgb(0 0 0 / .5);
+  --scrim: rgb(0 0 0 / .6);
+}
+
+:root {
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --ease-out: cubic-bezier(0, 0, .2, 1);
+  --ease-out-expo: cubic-bezier(.16, 1, .3, 1);
+  --dur-fast: 150ms;
+  --dur: 200ms;
+  --dur-slow: 250ms;
+  --nav-h: 64px;
+  --topbar-h: 56px;
+  /* One content width for every page (see DESIGN.md). */
+  --page-max: 90rem;
+  /* TikTok duotone offsets (brand-fixed, same in both themes) */
+  --brand-tiktok-1: #25f4ee;
+  --brand-tiktok-2: #fe2c55;
+  /* Instagram brand gradient (brand-fixed, same in both themes) */
+  --ig-grad-1: #feda75;
+  --ig-grad-2: #fa7e1e;
+  --ig-grad-3: #d62976;
+  --ig-grad-4: #962fbf;
+}

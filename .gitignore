@@ -1,0 +1,28 @@
+# deps / build
+node_modules/
+dist/
+.wrangler/
+*.tsbuildinfo
+.vite/
+.cache/
+.eslintcache
+coverage/
+# env & secrets
+.env
+.env.*
+!.env.example
+.dev.vars
+*.dev.vars
+*.local
+*.pem
+*.key
+keys/
+secrets/
+.secrets/
+# logs / junk
+*.log
+logs/
+npm-debug.log*
+.DS_Store
+*.bak
+*.bak-*

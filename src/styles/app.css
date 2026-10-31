@@ -1,0 +1,196 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: "Host Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-surface-2: var(--c-surface-2);
+  --color-surface-3: var(--c-surface-3);
+  --color-border: var(--c-border);
+  --color-border-strong: var(--c-border-strong);
+  --color-fg: var(--c-text);
+  --color-muted: var(--c-text-muted);
+  --color-faint: var(--c-text-faint);
+  --color-accent: var(--c-accent);
+  --color-accent-fg: var(--c-accent-fg);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-accent-text: var(--c-accent-text);
+  --color-success: var(--c-success);
+  --color-success-fg: var(--c-success-fg);
+  --color-success-soft: var(--c-success-soft);
+  --color-danger: var(--c-danger);
+  --color-danger-fg: var(--c-danger-fg);
+  --color-danger-soft: var(--c-danger-soft);
+  --color-info: var(--c-info);
+  --color-info-fg: var(--c-info-fg);
+  --color-info-soft: var(--c-info-soft);
+  --color-ai: var(--c-ai);
+  --color-ai-soft: var(--c-ai-soft);
+  --color-reupload: var(--c-reupload);
+  --color-reupload-soft: var(--c-reupload-soft);
+  --color-warning: var(--c-warning);
+  --color-warning-fg: var(--c-warning-fg);
+  --color-warning-soft: var(--c-warning-soft);
+  --color-planned: var(--c-planned);
+  --color-planned-text: var(--c-planned-text);
+  --color-planned-soft: var(--c-planned-soft);
+  --color-neutral: var(--c-neutral);
+  --color-neutral-fg: var(--c-neutral-fg);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --shadow-1: var(--shadow-1);
+  --shadow-2: var(--shadow-2);
+  --shadow-3: var(--shadow-3);
+  --ease-out: var(--ease-out);
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; min-height: 100%; background: var(--c-bg); }
+  #root { min-height: 100dvh; }
+  body {
+    @apply bg-bg text-fg font-sans antialiased;
+    min-height: 100dvh;
+    overflow-x: clip;
+  }
+  * { border-color: var(--c-border); }
+  :focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+  :where(input, textarea, select):focus-visible { outline-offset: 1px; }
+  ::selection { background: color-mix(in oklab, var(--c-accent) 30%, transparent); }
+  /* iOS: no zoom on focus */
+  input, select, textarea { font-size: 16px; }
+  @media (min-width: 768px) { input, select, textarea { font-size: 14px; } }
+}
+
+/* Theme switch: short colour cross-fade only while switching (class added by ThemeProvider) */
+.theme-switching, .theme-switching * {
+  transition: background-color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out) !important;
+}
+
+@utility tnum { font-variant-numeric: tabular-nums; }
+@utility num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+@utility tap { min-height: 44px; min-width: 44px; }
+
+@keyframes fade-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes sheet-up { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes sheet-in-right { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes scale-in { from { opacity: 0; scale: .97; } to { opacity: 1; scale: 1; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+@keyframes reveal { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.animate-fade-up { animation: fade-up var(--dur-slow) var(--ease-out-expo) both; }
+/* Scroll reveal: ONLY for Home on first load (see <Reveal>). Never on working lists. Max 6 items, 40ms stagger. */
+[data-reveal] > * { animation: reveal 200ms var(--ease-out-expo) both; }
+[data-reveal] > *:nth-child(2) { animation-delay: 40ms; }
+[data-reveal] > *:nth-child(3) { animation-delay: 80ms; }
+[data-reveal] > *:nth-child(4) { animation-delay: 120ms; }
+[data-reveal] > *:nth-child(5) { animation-delay: 160ms; }
+[data-reveal] > *:nth-child(n+6) { animation-delay: 200ms; }
+
+/* Cards: hover strengthens border/text only (no lift, no shadow jump) */
+@utility card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .card-interactive:hover { border-color: var(--c-border-strong); }
+  .card-interactive:hover .card-title { color: var(--c-text); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] > * { animation-name: fade-in !important; }
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Planner drag & drop motion (transform/opacity only) ---- */
+@keyframes dnd-lift { from { transform: scale(1) rotate(0); } to { transform: scale(1.03) rotate(3deg); } }
+@keyframes dnd-shadow-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slot-settle { from { transform: scale(.98); } to { transform: scale(1); } }
+@keyframes slot-glow { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes slot-shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-4px); } 40% { transform: translateX(4px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
+@keyframes hold-fill { from { transform: scale(.9); opacity: .35; } to { transform: scale(1); opacity: .6; } }
+.dnd-lift { animation: dnd-lift 180ms cubic-bezier(.2,.8,.2,1) both; transform-origin: 50% 50%; }
+.dnd-lift::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: 0 12px 24px rgba(0,0,0,.22), 0 4px 8px rgba(0,0,0,.12); animation: dnd-shadow-in 180ms cubic-bezier(.2,.8,.2,1) both; }
+.slot-glow { box-shadow: 0 0 0 2px var(--c-accent), 0 0 16px color-mix(in oklab, var(--c-accent) 45%, transparent); animation: slot-glow 250ms ease-out both; }
+.slot-shake { animation: slot-shake 250ms var(--ease-out-expo) both; }
+.msg-in { animation: fade-in 150ms ease-out both; }
+.hold-ring { position: absolute; inset: 4px; border-radius: 9999px; background: var(--c-accent); pointer-events: none; animation: hold-fill 250ms linear both; }
+@media (prefers-reduced-motion: reduce) {
+  .dnd-lift { animation: fade-in 150ms ease-out both; transform: none; }
+  .dnd-lift::after { animation: fade-in 150ms ease-out both; }
+  .slot-glow { animation: slot-glow 150ms ease-out both; }
+  .hold-ring { animation: fade-in 250ms linear both; transform: none; }
+}
+
+/* Settings unsaved bar: slides up (220ms, ease-out) */
+@keyframes savebar-up { from { transform: translateY(100%); opacity: 0; } to { transform: none; opacity: 1; } }
+.savebar-up { animation: savebar-up 220ms var(--ease-out-expo) both; }
+@media (prefers-reduced-motion: reduce) { .savebar-up { animation: fade-in 150ms ease-out both; } }
+
+/* Native <select> chevron: background image only (masking the element hides its text, border and background).
+   Stroke follows the muted text token per theme. */
+.chev-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23545d69' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+.dark .chev-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a9a9bb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+/* iOS: no zoom. Safari zooms on focus when a field's font is < 16px, so phones/touch get 16px fields
+   (unlayered + !important so text-sm/text-xs utilities can't undo it). Double-tap zoom off via touch-action. */
+@media (max-width: 639.98px), (pointer: coarse) {
+  input:not([type=checkbox]):not([type=radio]):not([type=range]), select, textarea { font-size: 16px !important; }
+}
+html, body, button, a, label, summary, [role=button], input, select, textarea { touch-action: manipulation; }
+
+/* Phone scale (< 640px, Azman on iPhone Pro Max): via the type tokens, so every text-xs/sm follows.
+   Body 16, meta/labels 14, never under 13; titles 22; controls 48px. Desktop untouched. */
+@media (max-width: 639.98px) {
+  :root {
+    --text-xs: 0.875rem; --text-xs--line-height: 1.3;
+    --text-sm: 1rem; --text-sm--line-height: 1.4;
+    --text-base: 1rem;
+    --text-2xl: 1.375rem; --text-2xl--line-height: 1.25;
+  }
+  body { font-size: 16px; }
+  /* one-off tiny px sizes: floor 13px */
+  [class*="text-[9px]"], [class*="text-[10px]"], [class*="text-[11px]"], [class*="text-[12px]"] { font-size: 13px !important; }
+  /* icons inside buttons: 22px */
+  button > svg.lucide.size-4, button > svg.lucide.size-5, [role=button] > svg.lucide.size-4 { width: 22px; height: 22px; }
+}
+
+/* Settings motion (transform/opacity only; reduced motion = short fades or none) */
+@keyframes m-roll { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@keyframes m-search { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes m-pop { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
+@keyframes m-hl { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: no-preference) {
+  .m-roll { animation: m-roll 250ms var(--ease-out, ease-out) both; }
+  .m-search { animation: m-search 250ms var(--ease-out, ease-out) both; }
+  .m-pop { animation: m-pop 220ms var(--ease-out-expo) both; }
+  .m-fade { animation: fade-in 200ms ease-out both; }
+  .m-hl { animation: fade-in 200ms ease-out both; }
+}
+@media (prefers-reduced-motion: reduce) { .m-roll, .m-search { animation: fade-in 150ms ease-out both; } }
+/* Search hit: tight teal mark (0 x-padding, 3px radius); fades in */
+/* List rows leaving a search/filter: collapse ~150ms (kept mounted by useListMotion) */
+@keyframes m-exit { from { max-height: 12rem; opacity: 1; } to { max-height: 0; opacity: 0; padding-block: 0; margin-block: 0; border-width: 0; } }
+.m-exit { overflow: hidden; pointer-events: none; animation: m-exit 150ms ease-out both; }
+@media (prefers-reduced-motion: reduce) { .m-exit { display: none; } }
+/* Our own Clear button replaces the browser's search ✕ */
+input[type=search]::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; display: none; }
