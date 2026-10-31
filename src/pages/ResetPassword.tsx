@@ -29,7 +29,7 @@ export default function ResetPassword() {
     <div className="grid min-h-dvh place-items-center px-4 py-16">
       <div className="card w-full max-w-sm space-y-4 p-6 shadow-2">
         <div>
-          <h1 className="text-xl font-bold tracking-[-0.025em]">Grokbot <span className="text-accent-text">AI log</span></h1>
+          <h1 className="text-xl font-bold tracking-[-0.025em]">BOL <span className="text-accent-text">Dev log</span></h1>
           <p className="mt-1 text-sm text-muted">{recovery ? 'Choose a new password for your account' : 'This reset link is invalid or has expired'}</p>
         </div>
         {recovery ? (

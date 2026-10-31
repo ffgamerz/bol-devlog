@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Dev log client (curl only). Env: DEVLOG_KEY (required), DEVLOG_URL (default https://grokbot-ai-log.pages.dev).
+# Dev log client (curl only). Env: DEVLOG_KEY (required), DEVLOG_URL (default https://bol-devlog.pages.dev).
 #   devlog.sh task-start "Name" --usage X [--repo R]   prints the task id
 #   devlog.sh step "msg" --id ID [--repo R]
 #   devlog.sh task-end --usage Y --id ID
 set -euo pipefail
-URL="${DEVLOG_URL:-https://grokbot-ai-log.pages.dev}"
+URL="${DEVLOG_URL:-https://bol-devlog.pages.dev}"
 : "${DEVLOG_KEY:?DEVLOG_KEY is not set}"
 
 cmd="${1:-}"; [ -n "$cmd" ] || { sed -n '2,6p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 2; }

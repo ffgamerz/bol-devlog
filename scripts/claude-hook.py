@@ -7,7 +7,7 @@ import json, os, subprocess, sys, time
 
 HOME = os.path.expanduser('~')
 CACHE = os.path.join(HOME, '.cache', 'claude-log')
-DEFAULT_URL = 'https://grokbot-ai-log.pages.dev'
+DEFAULT_URL = 'https://bol-devlog.pages.dev'
 
 
 def log(msg):

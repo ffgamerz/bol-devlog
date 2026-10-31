@@ -10,7 +10,8 @@ export interface AuthEnv {
 const ALLOWED_ORIGINS = new Set([
     'https://bol-affiliate.pages.dev',
     'https://bol-studio.pages.dev',
-    'https://grokbot-ai-log.pages.dev',
+    'https://bol-devlog.pages.dev',
+    'https://grokbot-ai-log.pages.dev', // old name, kept during the move
     'http://localhost:5173',
     'http://127.0.0.1:5173',
     'http://localhost:8788',
@@ -28,7 +29,7 @@ export function corsHeaders(request: Request, methods: string): Record<string, s
         'Cache-Control': 'no-store',
     }
     // Preview deployments: <hash>.bol-affiliate.pages.dev
-    if (ALLOWED_ORIGINS.has(origin) || /^https:\/\/[a-z0-9-]+\.(bol-affiliate|bol-studio|grokbot-ai-log)\.pages\.dev$/.test(origin)) {
+    if (ALLOWED_ORIGINS.has(origin) || /^https:\/\/[a-z0-9-]+\.(bol-affiliate|bol-studio|bol-devlog|grokbot-ai-log)\.pages\.dev$/.test(origin)) {
         h['Access-Control-Allow-Origin'] = origin
     }
     return h

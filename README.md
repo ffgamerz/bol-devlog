@@ -1,12 +1,12 @@
-# Grokbot AI log
+# BOL Dev log
 
-The Dev log page from BOL Studio as its own project. Same Supabase backend and logins. Cloudflare Pages project `grokbot-ai-log`
-(https://grokbot-ai-log.pages.dev), Vite + React, Pages Functions in `functions/`.
+The Dev log page from BOL Studio as its own project. Same Supabase backend and logins. Cloudflare Pages project `bol-devlog` (formerly `grokbot-ai-log`)
+(https://bol-devlog.pages.dev), Vite + React, Pages Functions in `functions/`.
 
 ```bash
 cp .env.example .env.local   # VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY (same as bol-studio)
 npm run dev                  # Node >= 22.12
-npm run build && npx wrangler pages deploy dist --project-name grokbot-ai-log --branch main --commit-dirty=true
+npm run build && npx wrangler pages deploy dist --project-name bol-devlog --branch main --commit-dirty=true
 ```
 
 Pages secrets: `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `DEVLOG_INGEST_KEYS` (and `SRT_WORKER_KEY` only if the old collector still posts here).
@@ -25,7 +25,7 @@ The old box collector replaces the whole snapshot on every push, so stop it once
 
 ```bash
 KEY=$(openssl rand -hex 24)   # give this to the bot; do not commit it
-echo "Technical:$KEY,Existing:oldkey" | npx wrangler pages secret put DEVLOG_INGEST_KEYS --project-name grokbot-ai-log
+echo "Technical:$KEY,Existing:oldkey" | npx wrangler pages secret put DEVLOG_INGEST_KEYS --project-name bol-devlog
 ```
 
 The new key works from the next deployment (redeploy after changing the secret).
@@ -33,7 +33,7 @@ The new key works from the next deployment (redeploy after changing the secret).
 ### curl
 
 ```bash
-U=https://grokbot-ai-log.pages.dev/api/devlog/ingest; H="Authorization: Bearer $DEVLOG_KEY"
+U=https://bol-devlog.pages.dev/api/devlog/ingest; H="Authorization: Bearer $DEVLOG_KEY"
 curl -sS -X POST $U -H "$H" -d '{"type":"task-start","name":"Fix login","usage":13.7,"repo":"bol-studio"}'   # {"data":{"id":"t1a2b3c"}}
 curl -sS -X POST $U -H "$H" -d '{"type":"step","id":"t1a2b3c","msg":"Wrote the test"}'
 curl -sS -X POST $U -H "$H" -d '{"type":"task-end","id":"t1a2b3c","usage":13.9}'
@@ -69,7 +69,7 @@ Setup on the Mac:
 ```bash
 KEY=$(openssl rand -hex 24); mkdir -p ~/.config/claude-log
 printf 'CLAUDE_INGEST_KEY=%s\n' "$KEY" > ~/.config/claude-log/env && chmod 600 ~/.config/claude-log/env
-printf '%s' "$KEY" | npx wrangler pages secret put CLAUDE_INGEST_KEY --project-name grokbot-ai-log
+printf '%s' "$KEY" | npx wrangler pages secret put CLAUDE_INGEST_KEY --project-name bol-devlog
 ```
 
 Then add the hooks to `~/.claude/settings.json` (command: `python3 /Users/azmanrazali/web/grokbot-ai-log/scripts/claude-hook.py`).

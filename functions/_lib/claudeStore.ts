@@ -1,4 +1,4 @@
-// The Claude log lives in its own private Storage bucket ('devlog-claude', state.json), apart from the Grokbot Dev log.
+// The Claude log lives in its own private Storage bucket ('devlog-claude', state.json), apart from the Dev log.
 export type Tokens = { input: number; output: number; cacheRead: number; cacheWrite: number }
 export type Pct = { pct: number; resetsAt: string }
 export type ClaudeSession = {

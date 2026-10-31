@@ -16,8 +16,8 @@ import { CommandPalette } from './CommandPalette'
 function Wordmark() {
   return (
     <span className="inline-flex items-center gap-2 font-semibold tracking-tight">
-      <span aria-hidden className="grid size-7 place-items-center rounded-lg bg-accent text-[13px] font-bold text-accent-fg">G</span>
-      <span>Grokbot <span className="text-accent-text">AI log</span></span>
+      <span aria-hidden className="grid size-7 place-items-center rounded-lg bg-accent text-[13px] font-bold text-accent-fg">B</span>
+      <span>BOL <span className="text-accent-text">Dev log</span></span>
     </span>
   )
 }
@@ -146,7 +146,7 @@ export function AppShell() {
         {!online && <OfflineBanner />}
         {newVersion && (
           <div role="status" className="flex items-center gap-3 border-b border-info/30 bg-info-soft px-4 py-2 text-sm text-info lg:px-6">
-            <span className="flex-1">Grokbot AI log was updated. Reload to get the new pages and menu.</span>
+            <span className="flex-1">BOL Dev log was updated. Reload to get the new pages and menu.</span>
             <button type="button" onClick={() => window.location.reload()} className="min-h-9 rounded-md px-3 font-semibold underline underline-offset-2">Reload</button>
           </div>
         )}
