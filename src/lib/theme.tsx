@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
 
 export type ThemePref = 'light' | 'dark' | 'system'
-export const THEME_KEY = 'grokbot-ai-log:theme'
+export const THEME_KEY = 'bol-devlog:theme'
 
 const mq = () => (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null)
 export const resolveTheme = (p: ThemePref): 'light' | 'dark' => (p === 'light' ? 'light' : p === 'dark' ? 'dark' : mq()?.matches ? 'light' : 'dark')

@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 
-const KEY = 'grokbot-ai-log:revealed'
+const KEY = 'bol-devlog:revealed'
 
 /** Staggered reveal of children, once per browser session (Home first load only). */
 export function Reveal({ children, className }: { children: ReactNode; className?: string }) {

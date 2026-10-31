@@ -19,7 +19,7 @@ type AuthState = {
 }
 
 const Ctx = createContext<AuthState | null>(null)
-const RECOVERY_KEY = 'grokbot:pw-recovery'
+const RECOVERY_KEY = 'bol-devlog:pw-recovery'
 /** Recovery links land on `#access_token=…&type=recovery`; capture it before supabase-js clears the hash. */
 const hashIsRecovery = typeof window !== 'undefined' && /[#&]type=recovery(?:&|$)/.test(window.location.hash) && /access_token=/.test(window.location.hash)
 const clearRecovery = () => { try { sessionStorage.removeItem(RECOVERY_KEY) } catch { /* private mode */ } }

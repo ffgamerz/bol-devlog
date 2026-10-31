@@ -11,7 +11,7 @@
     <script>
       (function () {
         try {
-          var pref = localStorage.getItem('grokbot-ai-log:theme') || 'dark';
+          var pref = localStorage.getItem('bol-devlog:theme') || 'dark';
           var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
           var light = pref === 'light' || (pref === 'system' && mq && mq.matches);
           var root = document.documentElement;

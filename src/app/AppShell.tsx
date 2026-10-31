@@ -22,7 +22,7 @@ function Wordmark() {
   )
 }
 
-const SIDE_KEY = 'grokbot:sidebar-hidden'
+const SIDE_KEY = 'bol-devlog:sidebar-hidden'
 /** Desktop sidebar visibility, remembered per browser. */
 function useSidebarHidden() {
   const [hidden, setHidden] = useState(() => { try { return localStorage.getItem(SIDE_KEY) === '1' } catch { return false } })
