@@ -3,6 +3,7 @@
 //   Authorization: Bearer <key>  where <key> is one of the Pages secret DEVLOG_INGEST_KEYS = "bot1:key1,bot2:key2". The bot name comes
 //   from the key, never from the body.
 //   {type:'task-start', name, usage?, repo?} -> {data:{id}} · {type:'step', id, msg, repo?} · {type:'task-end', id, usage?}
+//   {type:'task-usage', id, start?, end?} -> fixes a task's startUsage/endUsage later (own tasks only; end only once the task has ended)
 // state.json is read, changed and written back (Storage has no atomic update): two writes in the same instant can drop one entry.
 import { corsHeaders, json, rateLimited, safeEqual } from '../../_lib/security'
 import { redact } from '../devlog'
@@ -102,7 +103,15 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
       const t = own(b.id)
       if (t.status !== 'running') throw new Bad('Task already ended')
       Object.assign(t, { status: 'done', end: now, endUsage: usageOf(b.usage) })
-    } else throw new Bad("type must be 'task-start', 'step' or 'task-end'")
+    } else if (b.type === 'task-usage') {
+      const t = own(b.id)
+      const s = usageOf(b.start), e = usageOf(b.end)
+      if (s == null && e == null) throw new Bad('task-usage needs start and/or end')
+      if (e != null && t.status === 'running') throw new Bad('Task is still running: send its end usage with task-end')
+      if (s != null) t.startUsage = s
+      if (e != null) t.endUsage = e
+      out = { id: t.id, startUsage: t.startUsage ?? null, endUsage: t.endUsage ?? null }
+    } else throw new Bad("type must be 'task-start', 'step', 'task-end' or 'task-usage'")
 
     if (events.length > MAX_EVENTS) events.splice(0, events.length - MAX_EVENTS)
     if (tasks.length > MAX_TASKS) tasks.splice(0, tasks.length - MAX_TASKS)
