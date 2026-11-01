@@ -82,14 +82,28 @@ def tokens_of(path):
 
 
 def usage():
-    """5-hour / weekly percent from Claude's own usage endpoint (cached 60 s so a busy session does not hammer it)."""
+    """5-hour / weekly percent from Claude's own usage endpoint (cached 60 s so a busy session does not hammer it).
+    If the endpoint fails (429 / 401), the last good value is reused and the endpoint is left alone for 5 minutes,
+    so the session is still logged (a stale value only adds 0% gain)."""
     cf = os.path.join(CACHE, 'usage.json')
+    c = {}
     try:
         c = json.load(open(cf))
-        if time.time() - c['at'] < 60:
+        if time.time() - c['at'] < 60 or time.time() < c.get('retryAt', 0):
             return c['data']
     except Exception:
         pass
+    try:
+        return fetch_usage(cf)
+    except Exception as e:
+        if not c.get('data'):
+            raise
+        log(f'{e}; using last usage from {int(time.time() - c["at"])} s ago')
+        c['retryAt'] = time.time() + 300
+        json.dump(c, open(cf, 'w'))
+        return c['data']
+
+def fetch_usage(cf):
     r = subprocess.run(['security', 'find-generic-password', '-s', 'Claude Code-credentials', '-w'], capture_output=True, text=True, timeout=15)
     if r.returncode != 0:
         raise RuntimeError('no Claude login in keychain')
